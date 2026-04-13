@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCNG SMP</title>
+
+<link rel="icon" href="https://www.image2url.com/r2/default/images/1776057718134-eff26376-3085-470f-9a42-d5cf4dc4d553.png">
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Figtree:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--green:#39452b;--green-light:#4f5f3a;--card:rgba(255,255,255,0.05)
+}
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{height:100%;background:linear-gradient(135deg,#0b0f0a,#11170e)}
+
+body{
+font-family:'Figtree',sans-serif;
+color:white;
+display:flex;
+flex-direction:column;
+}
+
+main{flex:1}
+
+canvas{position:fixed;top:0;left:0;z-index:-1}
+
+/* NAV */
+.navbar{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 25px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-left img{height:40px}
+.nav-left span{font-family:'Tenor Sans';color:var(--green-light)}
+.nav-links{display:flex}
+.nav-links a{margin-left:20px;color:#d9f99d;text-decoration:none}
+
+.hamburger{display:none;font-size:24px;cursor:pointer}
+.mobile-menu{position:absolute;top:70px;right:20px;background:rgba(0,0,0,0.9);padding:15px;border-radius:10px;display:none;flex-direction:column}
+.mobile-menu a{margin:10px 0;color:#d9f99d;text-decoration:none}
+
+.banner{margin-top:90px;display:flex;justify-content:center}
+.banner img{width:90%;max-width:680px;border-radius:15px}
+
+header{text-align:center;padding:40px 20px}
+h1{font-family:'Tenor Sans';color:var(--green-light)}
+
+.copy{cursor:pointer;color:#a3e635}
+.btn{margin-top:10px;display:inline-block;padding:10px 20px;background:var(--green-light);color:black;border-radius:8px;text-decoration:none}
+
+section{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:20px}
+.card{width:300px;padding:20px;border-radius:15px;background:var(--card);backdrop-filter:blur(10px)}
+.card h2{font-family:'Tenor Sans';color:var(--green-light)}
+
+/* FOUNDERS CAROUSEL */
+.carousel{display:flex;align-items:center;justify-content:center;gap:15px;margin:40px 0}
+.slide{width:120px;height:120px;border-radius:10px;overflow:hidden;transition:0.4s}
+.slide img{width:100%;height:100%;object-fit:cover}
+.center{transform:scale(1.2)}
+.side{opacity:0.7;filter:blur(1px)}
+.far{opacity:0.4;filter:blur(2px)}
+.arrow{cursor:pointer;font-size:30px}
+
+.profiles{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.profile{text-align:center}
+.profile img{width:70px;height:70px;border-radius:50%}
+
+footer{text-align:center;padding:20px;background:rgba(0,0,0,0.4)}
+
+@media(max-width:700px){
+.nav-links{display:none}
+.hamburger{display:block}
+.card{width:90%}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="navbar">
+<div class="nav-left">
+<img src="https://www.image2url.com/r2/default/images/1776057718134-eff26376-3085-470f-9a42-d5cf4dc4d553.png">
+<span>MCNG SMP</span>
+</div>
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Join</a>
+</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+</div>
+
+<div class="mobile-menu" id="menu">
+<a href="#">Home</a>
+<a href="#">Join</a>
+</div>
+
+<main>
+
+<div class="banner">
+<img src="https://www.image2url.com/r2/default/images/1776057685131-0d7604a5-8b2e-497c-be21-1a78846f87e5.png">
+</div>
+
+<header>
+<h1>MCNG SMP</h1>
+<p>IP: GrandpaJoey.aternos.me:53793 (1.21.11)</p>
+<div class="copy" onclick="copyIP()">📋 Click to copy IP</div>
+<a class="btn" href="https://discord.gg/bYgUgJZQgz" target="_blank">Join Discord</a>
+</header>
+
+<section>
+<div class="card">
+<h2>Server Status</h2>
+<p id="status">Checking...</p>
+<p id="players"></p>
+</div>
+
+<div class="card">
+<h2>Info</h2>
+<p>Players: 6<br>Pets: 13<br>4 Dogs / 2 Cats / 7 Horses</p>
+</div>
+
+<div class="card">
+<h2>Enchantments</h2>
+<a href="https://docs.google.com/spreadsheets/d/1uJ_jVVMgfPxPNplXQ8JzL5m7ZV8n-GmmxXNog16kI40/edit?usp=sharing" target="_blank">View List</a>
+</div>
+</section>
+
+<!-- FOUNDERS -->
+<section>
+<h2 style="width:100%;text-align:center;font-family:'Tenor Sans'">Founders</h2>
+<div class="carousel">
+<div class="arrow" onclick="move(-1)">◀</div>
+<div id="slides"></div>
+<div class="arrow" onclick="move(1)">▶</div>
+</div>
+
+<div class="profiles">
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/869197667505430569/3d2af632639aceba70f8b028493cbf59.webp"><p>Grandpa Joey</p></div>
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/1070368928871760074/3e82a5fba97a9c7848763d6ab79c64d9.webp"><p>Grg Gamer</p></div>
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/1094151164427247696/1b1cc567ea5d079cf19deabbd537d8e1.webp"><p>Oreo</p></div>
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/912746672604455012/994c98da203733084c7e1047723302c8.webp"><p>Grzecho</p></div>
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/911072161349918720/84651951a6e3489d110d266ba41a5a7d.webp"><p>Blazebrown</p></div>
+<div class="profile"><img src="https://cdn.discordapp.com/avatars/1185282242205978657/25f2b4d440fa0fd9ec4b42a79a0b7b1e.webp"><p>Enderman</p></div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 MCNG SMP</p>
+</footer>
+
+<script>
+function toggleMenu(){
+const m=document.getElementById('menu');
+m.style.display=m.style.display==='flex'?'none':'flex';}
+
+function copyIP(){navigator.clipboard.writeText("GrandpaJoey.aternos.me:53793");alert("IP copied!")}
+
+function updateStatus(){
+fetch("https://api.mcsrvstat.us/2/GrandpaJoey.aternos.me:53793")
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("status").innerText=d.online?"🟢 Online":"🔴 Offline";
+if(d.players && d.players.list){document.getElementById("players").innerText="Players: "+d.players.list.join(", ");}
+});}
+updateStatus();
+setInterval(updateStatus,10000);
+
+// BETTER PARTICLES
+const c=document.getElementById("particles"),ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+let particles=[];
+for(let i=0;i<80;i++)particles.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:Math.random()-0.5,vy:Math.random()-0.5});
+let mouse={x:null,y:null};
+addEventListener("mousemove",e=>{mouse.x=e.x;mouse.y=e.y});
+function draw(){ctx.clearRect(0,0,c.width,c.height);
+particles.forEach(p=>{
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0||p.x>c.width)p.vx*=-1;
+if(p.y<0||p.y>c.height)p.vy*=-1;
+ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);
+ctx.fillStyle="rgba(163,230,53,0.7)";ctx.fill();
+if(mouse.x){let dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<100){p.x+=dx/20;p.y+=dy/20}}
+});requestAnimationFrame(draw)}draw();
+
+// CAROUSEL
+const imgs=[
+"https://cdn.discordapp.com/avatars/869197667505430569/3d2af632639aceba70f8b028493cbf59.webp",
+"https://cdn.discordapp.com/avatars/1070368928871760074/3e82a5fba97a9c7848763d6ab79c64d9.webp",
+"https://cdn.discordapp.com/avatars/1094151164427247696/1b1cc567ea5d079cf19deabbd537d8e1.webp",
+"https://cdn.discordapp.com/avatars/912746672604455012/994c98da203733084c7e1047723302c8.webp",
+"https://cdn.discordapp.com/avatars/911072161349918720/84651951a6e3489d110d266ba41a5a7d.webp",
+"https://cdn.discordapp.com/avatars/1185282242205978657/25f2b4d440fa0fd9ec4b42a79a0b7b1e.webp"];
+let index=0;
+function render(){
+const s=document.getElementById("slides");s.innerHTML="";
+for(let i=-2;i<=2;i++){
+let img=imgs[(index+i+imgs.length)%imgs.length];
+let div=document.createElement("div");
+div.className="slide "+(i==0?"center":i==1||i==-1?"side":"far");
+div.innerHTML=`<img src="${img}">`;
+s.appendChild(div);
+}}
+function move(d){index=(index+d+imgs.length)%imgs.length;render()}
+render();
+</script>
+
+</body>
+</html>
